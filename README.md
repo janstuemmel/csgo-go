@@ -1,4 +1,6 @@
-# CSGO go
+[![Build Status](https://travis-ci.org/janstuemmel/csgo-go.svg?branch=master)](https://travis-ci.org/janstuemmel/csgo-go)
+
+# csgo-go
 
 A set of libraries, utilities and docs for csgo srcds servers.
 
