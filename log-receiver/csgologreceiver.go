@@ -1,3 +1,7 @@
+/*
+Package csgologreceiver is a udp handler to receive logs from a remote srcds csgo server.
+It parses the header sent via udp and returns data in a response struct.
+*/
 package csgologreceiver
 
 import (
@@ -93,7 +97,7 @@ var RegexSecretNoToken = regexp.MustCompile(`.{4}S(\w+)(L .*)`)
 	RegexSecretToken regular expression for parsing the
 	log header if there's no secret but a token set:
 
-	Example: ����RTB8032A3B450FB7A6 L
+	Example: ����RTB8032A3B450FB7A6 L ...
 */
 var RegexNoSecretToken = regexp.MustCompile(`.{4}RT(\w+) (L .*)`)
 
