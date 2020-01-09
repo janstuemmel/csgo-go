@@ -10,7 +10,7 @@ func TestReceiver(t *testing.T) {
 	t.Run("Init and close receiver", func(t *testing.T) {
 
 		// when
-		r, _ := New("0.0.0.0", 1234)
+		r, _ := New("0.0.0.0", 12345)
 
 		// then
 		r.Close()
@@ -19,15 +19,15 @@ func TestReceiver(t *testing.T) {
 	t.Run("Init, send message and close receiver", func(t *testing.T) {
 
 		// given
-		r, _ := New("0.0.0.0", 1234)
-		conn, _ := net.Dial("udp", "0.0.0.0:1234")
+		r, _ := New("0.0.0.0", 12345)
+		conn, _ := net.Dial("udp", "0.0.0.0:12345")
 		conn.Write([]byte(`xxxxRL foo`))
 
 		// when
 		response, _ := r.Read()
 
 		// then
-		assert(t, "L foo", response.Line)
+		assert(t, "L foo", response.Message)
 
 		// after
 		r.Close()
@@ -48,39 +48,39 @@ func TestParseHeader(t *testing.T) {
 	t.Run("Parse header no secret nor token", func(t *testing.T) {
 
 		// when
-		_, _, l, _ := ParseHeader([]byte(`xxxxRL foo`))
+		_, _, m, _ := ParseHeader([]byte(`xxxxRL foo`))
 
 		// then
-		assert(t, "L foo", l)
+		assert(t, "L foo", m)
 	})
 
 	t.Run("Parse header with secret but no token", func(t *testing.T) {
 
 		// when
-		s, _, l, _ := ParseHeader([]byte(`xxxxS2fooL foo`))
+		s, _, m, _ := ParseHeader([]byte(`xxxxS2fooL foo`))
 
 		// then
-		assert(t, "L foo", l)
+		assert(t, "L foo", m)
 		assert(t, "2foo", s)
 	})
 
 	t.Run("Parse header no secret but with token", func(t *testing.T) {
 
 		// when
-		_, tok, l, _ := ParseHeader([]byte(`xxxxRTFOO L foo`))
+		_, tok, m, _ := ParseHeader([]byte(`xxxxRTFOO L foo`))
 
 		// then
-		assert(t, "L foo", l)
+		assert(t, "L foo", m)
 		assert(t, "FOO", tok)
 	})
 
 	t.Run("Parse header with secret and token", func(t *testing.T) {
 
 		// when
-		s, tok, l, _ := ParseHeader([]byte(`xxxxS2fooTFOO L foo`))
+		s, tok, m, _ := ParseHeader([]byte(`xxxxS2fooTFOO L foo`))
 
 		// then
-		assert(t, "L foo", l)
+		assert(t, "L foo", m)
 		assert(t, "2foo", s)
 		assert(t, "FOO", tok)
 	})

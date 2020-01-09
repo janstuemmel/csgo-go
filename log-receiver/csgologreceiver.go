@@ -24,10 +24,10 @@ type (
 
 	// Response holds the log message data
 	Response struct {
-		Secret string
-		Token  string
-		Line   string
-		Addr   *net.UDPAddr
+		Secret  string `json:"secret"`
+		Token   string `json:"token"`
+		Message string `json:"message"`
+		Addr    string `json:"addr"`
 	}
 )
 
@@ -50,9 +50,9 @@ func (r receiver) Read() (Response, error) {
 		return Response{}, err
 	}
 
-	secret, token, line, err := ParseHeader(p)
+	secret, token, message, err := ParseHeader(p)
 
-	return Response{Secret: secret, Token: token, Line: line, Addr: remoteaddr}, nil
+	return Response{Secret: secret, Token: token, Message: message, Addr: remoteaddr.String()}, nil
 }
 
 // New initializes a udp connection to ip:port
@@ -106,7 +106,7 @@ var ErrorNoMatch = errors.New("no match")
 
 /*
 	ParseHeader parses the header of a log
-	message and returns: secret, token, line, error
+	message and returns: secret, token, message, error
 */
 func ParseHeader(line []byte) (string, string, string, error) {
 
