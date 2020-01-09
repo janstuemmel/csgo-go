@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 
@@ -19,9 +20,17 @@ func main() {
 
 		response, _ := receiver.Read()
 
-		jsn, _ := json.MarshalIndent(response, "", "  ")
-
-		fmt.Println(string(jsn))
+		fmt.Printf(ToJSON(response))
 	}
 
+}
+
+// helper
+func ToJSON(m csgologreceiver.Response) string {
+	buf := &bytes.Buffer{}
+	enc := json.NewEncoder(buf)
+	enc.SetEscapeHTML(false)
+	enc.SetIndent("", "  ")
+	enc.Encode(m)
+	return buf.String()
 }
