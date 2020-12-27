@@ -1,0 +1,12 @@
+body {
+  background: #f0f0f0;
+}
+
+.wrapper {
+  margin: 0 auto;
+  /* max-width: 800px; */
+  position: relative;
+}
+
+/* hide scroll bar */
+.xterm-viewport { overflow: hidden !important; }

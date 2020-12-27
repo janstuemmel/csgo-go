@@ -20,7 +20,7 @@ func main() {
 
 		response, _ := receiver.Read()
 
-		fmt.Printf(ToJSON(response))
+		fmt.Print(response)
 	}
 
 }
